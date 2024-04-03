@@ -13,9 +13,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
 - [HelloWorld.java](#HelloWorld)
 
 ### <a id="HelloWorld"></a>HelloWorld.java
-- `showHello`  
-`HelloWorld`などの文字列を出力する
-- `showInteger`  
+- `showHello`(メソッド)  
+`"HelloWorld"`などの文字列を出力する
+- `showInteger`(メソッド)   
 整数の計算結果を出力する
 
 ## クラス、メソッド、フィールド
