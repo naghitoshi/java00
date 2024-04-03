@@ -42,7 +42,21 @@ class クラス{
         }
 }
 ```
+## mainメソッド
+- 最初に呼び出されるメソッド。
+- 無い場合、コンパイルエラーは起こらないが、実行時にエラーが起こる
+- プログラム起動時に指定された引数を受け取るための仮引数を記述
+- public と static という修飾子を記述
 
+```
+public static void main(String[] args){
+  // ...
+}
+```
+
+### public static
+- public：このメソッドがすべてのクラスからアクセス可能なことを宣言
+- static：このメソッドがクラスから作成したオブジェクトのメンバーではなく、クラスそのもののメンバーである事を宣言。
 
 ## 参考
 - [Java入門](https://www.javadrive.jp/start/#section_install) (2024/04/02)
