@@ -1,7 +1,7 @@
 # Javaの練習用リポジトリ 00
 
 
-## 実行環境
+## 1. 実行環境
 コマンド`java -version`によって確認。
 
 ```
@@ -9,10 +9,10 @@ java version "22" 2024-03-19
 Java(TM) SE Runtime Environment (build 22+36-2370)
 Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
 ```
-## ファイル
+## 2. ファイル
 - [HelloWorld.java](#HelloWorld)
 
-### <a id="HelloWorld"></a>HelloWorld.java
+### <a id="HelloWorld"></a>2.1. HelloWorld.java
 - `showHello`(メソッド)  
 `"HelloWorld"`などの文字列を出力する
 - `showInteger`(メソッド)   
@@ -24,7 +24,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
 - `showCharacter`(メソッド)  
 文字の出力
 
-## クラス、メソッド、フィールド
+## 3. クラス、メソッド、フィールド
 - クラス：特定の目的を達成するのに必要なものをまとめたもの  
   
   命名規則）Pascal記法   
@@ -50,7 +50,7 @@ class クラス{
         }
 }
 ```
-## mainメソッド
+## 4. mainメソッド
 - 最初に呼び出されるメソッド。
 - 無い場合、コンパイルエラーは起こらないが、実行時にエラーが起こる
 - プログラム起動時に指定された引数を受け取るための仮引数を記述
@@ -62,11 +62,11 @@ public static void main(String[] args){
 }
 ```
 
-### public static
+### 4.1. public static
 - public：このメソッドがすべてのクラスからアクセス可能なことを宣言
 - static：このメソッドがクラスから作成したオブジェクトのメンバーではなく、クラスそのもののメンバーである事を宣言。
 
-## import
+## 5. import
 importの宣言によって、クラス名だけで記述することができるようになる。
 `String`, `System`クラスなどは`java.lang`パッケージに含まれることからimportを宣言しなくても使用できる。
 ```
@@ -80,7 +80,7 @@ import java.util.regex.Matcher;
 import java.util.regex.*;
 ```
 
-## エンコーディング
+## 6. エンコーディング
 `System.getProperty("file.encoding")`によってデフォルトのエンコーディング方式を確認できる。
 ```
 //エンコーディングを指定したコンパイル
@@ -103,7 +103,7 @@ import java.util.regex.*;
   - windows-31j  
   主にMicrosoft Windowsで使用される日本語の文字エンコーディング方式。Shift_JISと同様に、ASCII文字に関しては1バイトでエンコードされ、ほとんどの日本語の文字に関しては2バイトでエンコードされる。
 
-## 文字リテラル
+## 7. 文字リテラル
 文字リテラルは一つの文字の値。複数の文字からなる値は文字列リテラルと呼ばれ区別される。
 ```
 char c1 = 'a';
