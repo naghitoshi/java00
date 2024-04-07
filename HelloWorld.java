@@ -5,19 +5,44 @@
 
 import java.time.LocalDate;
 
-public class HelloWorld
-{
+
+public class HelloWorld{
   //文字列出力
   static void showHello(){
     String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
     System.out.println("output of method: " + methodName);
     System.out.println("HelloWorld");
     System.out.println("insert a new line\n");
-    System.out.print("No break. ");
-    System.out.println("(^^)");
-    System.out.println(); 
+    System.out.print("No ");
+    System.out.println("break.");
+
+    System.out.println("----------------------------------------"); 
   }
 
+  //日付の出力
+  static void showDate(){
+    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+    System.out.println("output of method: " + methodName);
+    /* 
+    java.time.LocalDate ld = java.time.LocalDate.now();
+    System.out.println("Today: " + ld);
+    */
+
+    LocalDate ld2 = LocalDate.now();  //importによってエラーが起きない
+    System.out.println("Today: " + ld2);
+
+    System.out.println("----------------------------------------"); 
+  }
+
+  //エンコーディングの出力
+  static void showEncoding(){
+    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+    System.out.println("output of method: " + methodName);
+    System.out.println("Encoding: " + System.getProperty("file.encoding"));
+
+    System.out.println("----------------------------------------"); 
+  }
+  
   //計算結果出力
   static void showInteger(int a, int b){
     String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
@@ -34,29 +59,8 @@ public class HelloWorld
     System.out.println("商 = " + quotient);
     System.out.println("合計=" + sum + ", 差=" + difference + 
                         ", 積=" + product + ", 商=" + quotient);
-    System.out.println();                    
-  }
 
-  //日付の出力
-  static void showDate(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
-    /* 
-    java.time.LocalDate ld = java.time.LocalDate.now();
-    System.out.println("Today: " + ld);
-    */
-
-    LocalDate ld2 = LocalDate.now();  //importによってエラーが起きない
-    System.out.println("Today: " + ld2);
-    System.out.println();
-  }
-
-  //エンコーディングの出力
-  static void showEncoding(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
-    System.out.println("Encoding: " + System.getProperty("file.encoding"));
-    System.out.println();
+    System.out.println("----------------------------------------");                     
   }
 
   //文字の出力
@@ -70,13 +74,39 @@ public class HelloWorld
     System.out.println(c2);
     System.out.println(0x0061); //直接入力すると、数値として扱われる
     System.out.println('\u0061');
-    System.out.println();
+
+    System.out.println("----------------------------------------"); 
   }
+
+  //小数の出力
+  static void showDecimal(){
+    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+    System.out.println("output of method: " + methodName);
+    float f1, f2;
+    //float型の変数に数値を代入する場合そのまま記述するとエラーが起こる。
+    //末尾にFを付けることでfloat型の値として扱われる。
+    f1 = 3.14F;
+    f2 = 314e-2F;
+    System.out.println(f1);
+    System.out.println(f2);
+
+    double d1, d2;
+    d1 = 2.71;
+    d2 = 0.271e1;
+    System.out.println(d1);
+    System.out.println(d2);
+
+    System.out.println("----------------------------------------"); 
+  }
+
   public static void main(String[] args) {
     showHello();
-    showInteger(8, 3);
     showDate();
     showEncoding();
+    showInteger(8, 3);
     showCharacter();
+    showDecimal();
   }
 }
+
+
