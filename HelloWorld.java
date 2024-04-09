@@ -99,13 +99,32 @@ public class HelloWorld{
     System.out.println("----------------------------------------"); 
   }
 
-  public static void main(String[] args) {
+  //型推論
+  static void showVar(){
+    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+    System.out.println("output of method: " + methodName);
+
+    var c = 'b';
+    var i = 15;
+    var d = 1.414;
+    var str = "Hello";
+
+    System.out.println(c + ", type: " + ((Object)c).getClass().getSimpleName());
+    System.out.println(i + ", type: " + ((Object)i).getClass().getSimpleName());
+    System.out.println(d + ", type: " + ((Object)d).getClass().getSimpleName());
+    System.out.println(str + ", type: " + ((Object)str).getClass().getSimpleName());
+
+    System.out.println("----------------------------------------"); 
+  }
+
+  public static void main(String[] args){
     showHello();
     showDate();
     showEncoding();
     showInteger(8, 3);
     showCharacter();
     showDecimal();
+    showVar();
   }
 }
 
