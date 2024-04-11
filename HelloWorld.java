@@ -4,25 +4,20 @@
 // 出力用クラス
 
 import java.time.LocalDate;
-
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 public class HelloWorld{
   //文字列出力
-  static void showHello(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
+  public static void showHello(){
     System.out.println("HelloWorld");
     System.out.println("insert a new line\n");
     System.out.print("No ");
     System.out.println("break.");
-
-    System.out.println("----------------------------------------"); 
   }
 
   //日付の出力
-  static void showDate(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
+  public static void showDate(){
     /* 
     java.time.LocalDate ld = java.time.LocalDate.now();
     System.out.println("Today: " + ld);
@@ -30,21 +25,15 @@ public class HelloWorld{
 
     LocalDate ld2 = LocalDate.now();  //importによってエラーが起きない
     System.out.println("Today: " + ld2);
-
-    System.out.println("----------------------------------------"); 
   }
 
   //エンコーディングの出力
-  static void showEncoding(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
+  public static void showEncoding(){
     System.out.println("Encoding: " + System.getProperty("file.encoding"));
-
-    System.out.println("----------------------------------------"); 
   }
   
   //計算結果出力
-  static void showInteger(int a, int b){
+  public static void showInteger(int a, int b){
     String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
     System.out.println("output of method: " + methodName);
     int sum, difference, product, quotient;
@@ -64,9 +53,7 @@ public class HelloWorld{
   }
 
   //文字の出力
-  static void showCharacter(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
+  public static void showCharacter(){
     char c1, c2, c3;
     c1 = 'a';
     c2 = 0x0061;
@@ -74,14 +61,10 @@ public class HelloWorld{
     System.out.println(c2);
     System.out.println(0x0061); //直接入力すると、数値として扱われる
     System.out.println('\u0061');
-
-    System.out.println("----------------------------------------"); 
   }
 
   //小数の出力
-  static void showDecimal(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
+  public static void showDecimal(){
     float f1, f2;
     //float型の変数に数値を代入する場合そのまま記述するとエラーが起こる。
     //末尾にFを付けることでfloat型の値として扱われる。
@@ -94,16 +77,11 @@ public class HelloWorld{
     d1 = 2.71;
     d2 = 0.271e1;
     System.out.println(d1);
-    System.out.println(d2);
-
-    System.out.println("----------------------------------------"); 
+    System.out.println(d2); 
   }
 
   //型推論
-  static void showVar(){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
-
+  public static void showVar(){
     var c = 'b';
     var i = 15;
     var d = 1.414;
@@ -113,19 +91,57 @@ public class HelloWorld{
     System.out.println(i + ", type: " + ((Object)i).getClass().getSimpleName());
     System.out.println(d + ", type: " + ((Object)d).getClass().getSimpleName());
     System.out.println(str + ", type: " + ((Object)str).getClass().getSimpleName());
-
-    System.out.println("----------------------------------------"); 
   }
 
   public static void main(String[] args){
-    showHello();
-    showDate();
-    showEncoding();
+    Invoke ivk = new Invoke();
+    ivk.execute("HelloWorld", "showHello");
+    ivk.execute("HelloWorld", "showDate");
+    ivk.execute("HelloWorld", "showEncoding");
+
     showInteger(8, 3);
     showCharacter();
     showDecimal();
     showVar();
+    ivk.execute("HelloWorld", "showCharacter");
+    ivk.execute("HelloWorld", "showDecimal");
+    ivk.execute("HelloWorld", "showVar");
   }
 }
 
 
+public class Invoke {
+  public static void execute(String classname, String methodname) {
+    try{
+      //クラスの取得
+      Class<?> cls = Class.forName(classname);
+      // インスタンスの取得
+      Object obj = cls.getDeclaredConstructor().newInstance();
+      // メソッドの取得
+      Method mtd = cls.getMethod(methodname);
+      
+      String title = "- Start execution: " + mtd.getName() + " (" + cls.getName() + ") ";
+      int MAXTITLELENGE = 50;
+      System.out.print(title);
+      for(int i = 0; i < MAXTITLELENGE - title.length(); i++){
+          System.out.print("-");
+      }
+      System.out.println();
+      
+      // メソッドの実行
+      long startTime = System.currentTimeMillis();
+      mtd.invoke(obj);
+      long endTime = System.currentTimeMillis();
+      System.out.println("------------------------------ (processing time: " 
+                          + (endTime - startTime)
+                          + " ms)\n"); 
+
+    } catch (ClassNotFoundException e) {
+          System.out.println("ClassNotFoundExceptionが発生");
+    } catch (NoSuchMethodException e){
+        System.out.println("a");
+    } catch (InstantiationException |IllegalAccessException|InvocationTargetException e) {
+          System.out.println("Object myobj = g.getDeclaredConstructor().newInstance()でエラーが発生");
+    }
+  }
+}
