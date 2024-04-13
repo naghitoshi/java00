@@ -6,6 +6,7 @@
 import java.time.LocalDate;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 public class HelloWorld{
   //文字列出力
@@ -34,8 +35,6 @@ public class HelloWorld{
   
   //計算結果出力
   public static void showInteger(int a, int b){
-    String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-    System.out.println("output of method: " + methodName);
     int sum, difference, product, quotient;
     sum = a + b;
     difference = a - b;
@@ -48,8 +47,7 @@ public class HelloWorld{
     System.out.println("商 = " + quotient);
     System.out.println("合計=" + sum + ", 差=" + difference + 
                         ", 積=" + product + ", 商=" + quotient);
-
-    System.out.println("----------------------------------------");                     
+                     
   }
 
   //文字の出力
@@ -99,10 +97,9 @@ public class HelloWorld{
     ivk.execute("HelloWorld", "showDate");
     ivk.execute("HelloWorld", "showEncoding");
 
-    showInteger(8, 3);
-    showCharacter();
-    showDecimal();
-    showVar();
+    ivk.execute("HelloWorld", "showInteger", 8, 3);
+    //showInteger(8, 3);
+
     ivk.execute("HelloWorld", "showCharacter");
     ivk.execute("HelloWorld", "showDecimal");
     ivk.execute("HelloWorld", "showVar");
@@ -111,7 +108,121 @@ public class HelloWorld{
 
 
 public class Invoke {
+
+  public static void execute(String classname, String methodname, Object... args) {
+    try{
+      //クラスの取得
+      Class<?> cls = Class.forName(classname);
+      // インスタンスの取得
+      Object obj = cls.getDeclaredConstructor().newInstance();
+
+      //可変長引数のクラスのリストを取得
+      ArrayList<Class> argsClassList = getClassList(args);
+
+      // メソッドの取得
+      Method mtd = getMethod(cls, methodname, argsClassList);;
+      
+      //文字列の出力
+      showTitle(cls, mtd, args);
+
+      long startTime = System.currentTimeMillis();  //開始時間記録
+      // メソッドの実行
+      mtd.invoke(obj, args);
+      long endTime = System.currentTimeMillis();    //終了時間記録
+      System.out.println("------------------------------ (processing time: " 
+                          + (endTime - startTime)
+                          + " ms)\n"); 
+
+      } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
+                | IllegalAccessException | InvocationTargetException e){
+        e.printStackTrace();
+      }
+      
+  }
+
+  //文字列の出力
+  public static void showTitle(Class cls, Method mtd, Object... args){
+    String title = "-- Start execution: " + cls.getName() + "." + mtd.getName() + "(";
+    for(int i = 0; i < args.length; i++){
+      if(i != 0){
+        title += ", ";
+      }
+
+      if(args[i] instanceof Integer){
+        title += (int)args[i];
+      } else if (args[i] instanceof String) {
+        title += (String)args[i];
+      } else if (args[i] instanceof Float) {
+        title += (float)args[i];
+      } else if (args[i] instanceof Double) {
+        title += (double)args[i];
+      } else if (args[i] instanceof Boolean) {
+        title += (boolean)args[i];
+      } else {
+        System.out.println("Unknown type argument: " + args[i]);
+        System.exit(1);
+      }
+    }
+    title += ")";
+
+    int MAXTITLELENGE = 50;
+    System.out.print(title);
+    for(int i = 0; i < MAXTITLELENGE - title.length(); i++){
+        System.out.print("-");
+    }
+    System.out.println();
+  }
+
+  public static Class<?> getClass(Object arg){
+    Class<?> cls = null;
+
+    if (arg instanceof Integer) {
+      cls = int.class;
+    } else if (arg instanceof String) {
+      cls = String.class;
+    } else if (arg instanceof Float) {
+      cls = float.class;
+    } else if (arg instanceof Double) {
+      cls = double.class;
+    } else if (arg instanceof Boolean) {
+      cls = boolean.class;
+    } else {
+      System.out.println("Unknown type argument: " + arg);
+      System.exit(1);
+    } 
+    return cls;
+  }
+
+  //クラスのリストを取得
+  public static ArrayList<Class> getClassList(Object[] args) {
+    ArrayList<Class> classlist = new ArrayList<>();
+    
+    for (Object arg : args) {
+      classlist.add(getClass(arg)); 
+    }
+
+    return classlist;
+  }
+  
+  //メソッドの取得
+  @SuppressWarnings("unchecked")
+  //警告: [unchecked] raw型ClassのメンバーとしてのgetMethod(String,Class<?>...)への無検査呼出しです
+  //対策であるが、安全性は未確認
+  public static Method getMethod(Class cls, String methodName, ArrayList<Class> argsClassList) {
+    Method method = null;
+    Class<?>[] argTypes = argsClassList.toArray(new Class<?>[argsClassList.size()]);
+
+    try {
+        method = cls.getMethod(methodName, argTypes);
+    } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+    }
+
+    return method;
+  }
+    /* 
   public static void execute(String classname, String methodname) {
+
     try{
       //クラスの取得
       Class<?> cls = Class.forName(classname);
@@ -120,13 +231,7 @@ public class Invoke {
       // メソッドの取得
       Method mtd = cls.getMethod(methodname);
       
-      String title = "- Start execution: " + mtd.getName() + " (" + cls.getName() + ") ";
-      int MAXTITLELENGE = 50;
-      System.out.print(title);
-      for(int i = 0; i < MAXTITLELENGE - title.length(); i++){
-          System.out.print("-");
-      }
-      System.out.println();
+      showTitle(cls, mtd);
       
       // メソッドの実行
       long startTime = System.currentTimeMillis();
@@ -136,12 +241,39 @@ public class Invoke {
                           + (endTime - startTime)
                           + " ms)\n"); 
 
-    } catch (ClassNotFoundException e) {
-          System.out.println("ClassNotFoundExceptionが発生");
-    } catch (NoSuchMethodException e){
-        System.out.println("a");
-    } catch (InstantiationException |IllegalAccessException|InvocationTargetException e) {
-          System.out.println("Object myobj = g.getDeclaredConstructor().newInstance()でエラーが発生");
+    } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
+             | IllegalAccessException | InvocationTargetException e){
+        e.printStackTrace();
     }
   }
+  */
+  /*
+  @SuppressWarnings("unchecked")
+  public static Method getMethod(Class cls, String methodname, ArrayList<Class> argsclasslist){
+    System.out.println(argsclasslist.get(0)); 
+    Method mtd = null;
+ 
+    try {
+      if(argsclasslist.size() <= 0){
+        mtd = cls.getMethod(methodname);
+      }else if(argsclasslist.size() == 1){
+        mtd = cls.getMethod(methodname, argsclasslist.get(0));
+      }else if(argsclasslist.size() == 2){
+        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1));
+      }else if(argsclasslist.size() == 3){
+        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1), argsclasslist.get(2));
+      }else if(argsclasslist.size() == 4){
+        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1), argsclasslist.get(2), argsclasslist.get(3));
+      }else if(argsclasslist.size() == 5){
+        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1), argsclasslist.get(2), argsclasslist.get(3), argsclasslist.get(4));
+      }else{
+        System.err.println("Number of arguments is out of supported range. (max: 5 )");
+        System.exit(1);
+      }
+    } catch (NoSuchMethodException e){
+      e.printStackTrace();
+    }
+    return mtd;
+  }
+  */
 }
