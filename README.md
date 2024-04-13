@@ -15,30 +15,33 @@ Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
 ### <a id="HelloWorld"></a>2.1. HelloWorld.java
 - `HelloWorld`(クラス)
   - `showHello`(メソッド)  
-    `"HelloWorld"`などの文字列を出力する
+    `"HelloWorld"`などの文字列を出力する。
   - `showInteger`(メソッド)   
-    整数の計算結果を出力する
+    整数の計算結果を出力する。
   - `showDate`(メソッド)  
-    日付の出力
+    日付の出力。
   - `showEncoding`(メソッド)  
-    エンコーディングの出力
+    エンコーディングの出力。
   - `showCharacter`(メソッド)  
-    文字の出力
+    文字の出力。
   - `showDecimal`(メソッド)  
-    小数の出力
+    小数の出力。
   - `showVar`(メソッド)  
-    varを使用した宣言
+    varを使用した宣言。
+  - `showOperationType`(メソッド)
+    演算時の型の出力。
 - `Invoke`(クラス)
   - `execute`(メソッド)  
-    メソッドを実行し、実行時間を表示する
+    メソッドを実行し、実行時間を表示する。
   - `showTitle`(メソッド)  
-    実行したメソッドの文字列を表示する。`execute`で使用する
+    実行したメソッドの文字列を表示する。`execute`で使用する。
   - `getClass`(メソッド)
-    Object型からプリミティブ型またはクラス型の Class オブジェクトを返す。`getClassList`で使用する
+    Object型からプリミティブ型またはクラス型の Class オブジェクトを返す。`getClassList`で使用する。
   - `getClassList`(メソッド)  
-    Object型配列から、プリミティブ型またはクラス型の Class オブジェクト配列を返す。`execute`で使用する
+    Object型配列から、プリミティブ型またはクラス型の Class オブジェクト配列を返す。`execute`で使用する。
   - `getMethod`(メソッド)  
-    メソッドを返す。`execute`で使用する
+    メソッドを返す。`execute`で使用する。
+    
 ## 3. クラス、メソッド、フィールド
 - クラス：特定の目的を達成するのに必要なものをまとめたもの  
   
@@ -176,6 +179,15 @@ Java10からvarを使用することで、型の宣言時にデータ型の記�
 var num = 10;
 var str = "Hello";
 ```
+
+### 7.5. 演算時の型変換
+以下のルールが 1. から順に適用される。特に 4. では、shortやbyte型同士で演算を行った場合もint型に変換が行われることに注意。
+
+1. どちらかの値が double 型の場合は他の値を double 型に変換する
+2. どちらかの値が float 型の場合は他の値を float 型に変換する
+3. どちらかの値が long 型の場合は他の値を long 型に変換する
+4. 1から3に該当しない場合は両方の値を int 型に変換する
+
 
 ## 参考
 - [Java入門](https://www.javadrive.jp/start/#section_install) (2024/04/02)
