@@ -18,11 +18,9 @@ public class HelloWorld{
   }
 
   //日付の出力
-  public static void showDate(){
-    /* 
+  public static void showDate(){ 
     java.time.LocalDate ld = java.time.LocalDate.now();
     System.out.println("Today: " + ld);
-    */
 
     LocalDate ld2 = LocalDate.now();  //importによってエラーが起きない
     System.out.println("Today: " + ld2);
@@ -91,22 +89,36 @@ public class HelloWorld{
     System.out.println(str + ", type: " + ((Object)str).getClass().getSimpleName());
   }
 
+  //演算時の型の確認
+  public static void showTypeAfterCalculation(){
+    float f1, f2; 
+    f1 = f2 = 12.3F;
+    double d1, d2;
+    d1 = d2 = 34.5;
+    short s1, s2;
+    s1 = s2 = 5;
+
+    System.out.println("float + float (type): " + ((Object)(f1 + f2)).getClass().getSimpleName());
+    System.out.println("float + double (type): " + ((Object)(f1 + d1)).getClass().getSimpleName());
+    System.out.println("float + short (type): " + ((Object)(f1 + s1)).getClass().getSimpleName());
+    System.out.println("float + short (type): " + ((Object)(s1 + s2)).getClass().getSimpleName());
+  }
+
   public static void main(String[] args){
     Invoke ivk = new Invoke();
     ivk.execute("HelloWorld", "showHello");
     ivk.execute("HelloWorld", "showDate");
     ivk.execute("HelloWorld", "showEncoding");
-
     ivk.execute("HelloWorld", "showInteger", 8, 3);
-    //showInteger(8, 3);
-
     ivk.execute("HelloWorld", "showCharacter");
     ivk.execute("HelloWorld", "showDecimal");
     ivk.execute("HelloWorld", "showVar");
+    ivk.execute("HelloWorld", "showTypeAfterCalculation");
+
   }
 }
 
-
+//メソッド実行用クラス
 public class Invoke{
 
   public static Object execute(String classname, String methodname, Object... args){
@@ -121,7 +133,7 @@ public class Invoke{
       ArrayList<Class> argsClassList = getClassList(args);
 
       // メソッドの取得
-      Method mtd = getMethod(cls, methodname, argsClassList);;
+      Method mtd = getMethod(cls, methodname, argsClassList);
       
       //文字列の出力
       showTitle(cls, mtd, args);
@@ -151,14 +163,20 @@ public class Invoke{
 
       if(args[i] instanceof Integer){
         title += (int)args[i];
-      } else if (args[i] instanceof String) {
-        title += (String)args[i];
-      } else if (args[i] instanceof Character) {
-        title += (char)args[i];
+      } else if (args[i] instanceof Short) {
+        title += (short)args[i];
+      } else if (args[i] instanceof Long) {
+        title += (long)args[i];
+      } else if (args[i] instanceof Byte) {
+        title += (byte)args[i];
       } else if (args[i] instanceof Float) {
         title += (float)args[i];
       } else if (args[i] instanceof Double) {
         title += (double)args[i];
+      } else if (args[i] instanceof Character) {
+        title += (char)args[i];
+      } else if (args[i] instanceof String) {
+        title += (String)args[i];
       } else if (args[i] instanceof Boolean) {
         title += (boolean)args[i];
       } else {
@@ -168,7 +186,7 @@ public class Invoke{
     }
     title += ")";
 
-    int MAXTITLELENGE = 50;
+    final int MAXTITLELENGE = 55;
     System.out.print(title);
     for(int i = 0; i < MAXTITLELENGE - title.length(); i++){
         System.out.print("-");
@@ -181,14 +199,20 @@ public class Invoke{
 
     if (arg instanceof Integer) {
       cls = int.class;
-    } else if (arg instanceof Character) {
-      cls = char.class;    
-    } else if (arg instanceof String) {
-      cls = String.class;
+    } else if (arg instanceof Short) {
+      cls = short.class;
+    } else if (arg instanceof Long) {
+      cls = long.class;
+    } else if (arg instanceof Byte) {
+      cls = byte.class;
     } else if (arg instanceof Float) {
       cls = float.class;
     } else if (arg instanceof Double) {
       cls = double.class;
+    } else if (arg instanceof Character) {
+      cls = char.class;    
+    } else if (arg instanceof String) {
+      cls = String.class;
     } else if (arg instanceof Boolean) {
       cls = boolean.class;
     } else {
@@ -200,13 +224,13 @@ public class Invoke{
 
   //クラスのリストを取得
   public static ArrayList<Class> getClassList(Object[] args){
-    ArrayList<Class> classlist = new ArrayList<>();
+    ArrayList<Class> classList = new ArrayList<>();
     
     for (Object arg : args) {
-      classlist.add(getClass(arg)); 
+      classList.add(getClass(arg)); 
     }
 
-    return classlist;
+    return classList;
   }
   
   //メソッドの取得
