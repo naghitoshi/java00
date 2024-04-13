@@ -105,16 +105,14 @@ public class HelloWorld{
   }
 
   public static void main(String[] args){
-    Invoke ivk = new Invoke();
-    ivk.execute("HelloWorld", "showHello");
-    ivk.execute("HelloWorld", "showDate");
-    ivk.execute("HelloWorld", "showEncoding");
-    ivk.execute("HelloWorld", "showInteger", 8, 3);
-    ivk.execute("HelloWorld", "showCharacter");
-    ivk.execute("HelloWorld", "showDecimal");
-    ivk.execute("HelloWorld", "showVar");
-    ivk.execute("HelloWorld", "showTypeAfterCalculation");
-
+    Invoke.execute("HelloWorld", "showHello");
+    Invoke.execute("HelloWorld", "showDate");
+    Invoke.execute("HelloWorld", "showEncoding");
+    Invoke.execute("HelloWorld", "showInteger", 8, 3);
+    Invoke.execute("HelloWorld", "showCharacter");
+    Invoke.execute("HelloWorld", "showDecimal");
+    Invoke.execute("HelloWorld", "showVar");
+    Invoke.execute("HelloWorld", "showTypeAfterCalculation");
   }
 }
 
