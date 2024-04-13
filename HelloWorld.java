@@ -109,7 +109,8 @@ public class HelloWorld{
 
 public class Invoke{
 
-  public static void execute(String classname, String methodname, Object... args){
+  public static Object execute(String classname, String methodname, Object... args){
+    Object returnValue = null;
     try{
       //クラスの取得
       Class<?> cls = Class.forName(classname);
@@ -127,7 +128,7 @@ public class Invoke{
 
       long startTime = System.currentTimeMillis();  //開始時間記録
       // メソッドの実行
-      mtd.invoke(obj, args);
+      returnValue = mtd.invoke(obj, args);
       long endTime = System.currentTimeMillis();    //終了時間記録
       System.out.println("------------------------------ (processing time: " 
                           + (endTime - startTime)
@@ -137,7 +138,7 @@ public class Invoke{
                 | IllegalAccessException | InvocationTargetException e){
         e.printStackTrace();
       }
-      
+      return returnValue;
   }
 
   //文字列の出力
@@ -152,6 +153,8 @@ public class Invoke{
         title += (int)args[i];
       } else if (args[i] instanceof String) {
         title += (String)args[i];
+      } else if (args[i] instanceof Character) {
+        title += (char)args[i];
       } else if (args[i] instanceof Float) {
         title += (float)args[i];
       } else if (args[i] instanceof Double) {
@@ -178,6 +181,8 @@ public class Invoke{
 
     if (arg instanceof Integer) {
       cls = int.class;
+    } else if (arg instanceof Character) {
+      cls = char.class;    
     } else if (arg instanceof String) {
       cls = String.class;
     } else if (arg instanceof Float) {
