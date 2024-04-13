@@ -107,9 +107,9 @@ public class HelloWorld{
 }
 
 
-public class Invoke {
+public class Invoke{
 
-  public static void execute(String classname, String methodname, Object... args) {
+  public static void execute(String classname, String methodname, Object... args){
     try{
       //クラスの取得
       Class<?> cls = Class.forName(classname);
@@ -194,7 +194,7 @@ public class Invoke {
   }
 
   //クラスのリストを取得
-  public static ArrayList<Class> getClassList(Object[] args) {
+  public static ArrayList<Class> getClassList(Object[] args){
     ArrayList<Class> classlist = new ArrayList<>();
     
     for (Object arg : args) {
@@ -207,8 +207,8 @@ public class Invoke {
   //メソッドの取得
   @SuppressWarnings("unchecked")
   //警告: [unchecked] raw型ClassのメンバーとしてのgetMethod(String,Class<?>...)への無検査呼出しです
-  //対策であるが、安全性は未確認
-  public static Method getMethod(Class cls, String methodName, ArrayList<Class> argsClassList) {
+  //を抑制しているが、知識不足から安全性は未確認
+  public static Method getMethod(Class cls, String methodName, ArrayList<Class> argsClassList){
     Method method = null;
     Class<?>[] argTypes = argsClassList.toArray(new Class<?>[argsClassList.size()]);
 
@@ -220,60 +220,4 @@ public class Invoke {
 
     return method;
   }
-    /* 
-  public static void execute(String classname, String methodname) {
-
-    try{
-      //クラスの取得
-      Class<?> cls = Class.forName(classname);
-      // インスタンスの取得
-      Object obj = cls.getDeclaredConstructor().newInstance();
-      // メソッドの取得
-      Method mtd = cls.getMethod(methodname);
-      
-      showTitle(cls, mtd);
-      
-      // メソッドの実行
-      long startTime = System.currentTimeMillis();
-      mtd.invoke(obj);
-      long endTime = System.currentTimeMillis();
-      System.out.println("------------------------------ (processing time: " 
-                          + (endTime - startTime)
-                          + " ms)\n"); 
-
-    } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
-             | IllegalAccessException | InvocationTargetException e){
-        e.printStackTrace();
-    }
-  }
-  */
-  /*
-  @SuppressWarnings("unchecked")
-  public static Method getMethod(Class cls, String methodname, ArrayList<Class> argsclasslist){
-    System.out.println(argsclasslist.get(0)); 
-    Method mtd = null;
- 
-    try {
-      if(argsclasslist.size() <= 0){
-        mtd = cls.getMethod(methodname);
-      }else if(argsclasslist.size() == 1){
-        mtd = cls.getMethod(methodname, argsclasslist.get(0));
-      }else if(argsclasslist.size() == 2){
-        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1));
-      }else if(argsclasslist.size() == 3){
-        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1), argsclasslist.get(2));
-      }else if(argsclasslist.size() == 4){
-        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1), argsclasslist.get(2), argsclasslist.get(3));
-      }else if(argsclasslist.size() == 5){
-        mtd = cls.getMethod(methodname, argsclasslist.get(0), argsclasslist.get(1), argsclasslist.get(2), argsclasslist.get(3), argsclasslist.get(4));
-      }else{
-        System.err.println("Number of arguments is out of supported range. (max: 5 )");
-        System.exit(1);
-      }
-    } catch (NoSuchMethodException e){
-      e.printStackTrace();
-    }
-    return mtd;
-  }
-  */
 }
