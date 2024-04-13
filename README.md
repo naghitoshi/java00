@@ -13,17 +13,32 @@ Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
 - [HelloWorld.java](#HelloWorld)
 
 ### <a id="HelloWorld"></a>2.1. HelloWorld.java
-- `showHello`(メソッド)  
-`"HelloWorld"`などの文字列を出力する
-- `showInteger`(メソッド)   
-整数の計算結果を出力する
-- `showDate`(メソッド)  
-日付の出力
-- `showEncoding`(メソッド)  
-エンコーディングの出力
-- `showCharacter`(メソッド)  
-文字の出力
-
+- `HelloWorld`(クラス)
+  - `showHello`(メソッド)  
+    `"HelloWorld"`などの文字列を出力する
+  - `showInteger`(メソッド)   
+    整数の計算結果を出力する
+  - `showDate`(メソッド)  
+    日付の出力
+  - `showEncoding`(メソッド)  
+    エンコーディングの出力
+  - `showCharacter`(メソッド)  
+    文字の出力
+  - `showDecimal`(メソッド)  
+    小数の出力
+  - `showVar`(メソッド)  
+    varを使用した宣言
+- `Invoke`(クラス)
+  - `execute`(メソッド)  
+    メソッドを実行し、実行時間を表示する
+  - `showTitle`(メソッド)  
+    実行したメソッドの文字列を表示する。`execute`で使用する
+  - `getClass`(メソッド)
+    Object型からプリミティブ型またはクラス型の Class オブジェクトを返す。`getClassList`で使用する
+  - `getClassList`(メソッド)  
+    Object型配列から、プリミティブ型またはクラス型の Class オブジェクト配列を返す。`execute`で使用する
+  - `getMethod`(メソッド)  
+    メソッドを返す。`execute`で使用する
 ## 3. クラス、メソッド、フィールド
 - クラス：特定の目的を達成するのに必要なものをまとめたもの  
   
