@@ -2,11 +2,13 @@
  * ターミナルに表示させるコードの実験 */
 
 // 出力用クラス
+package java00;
 
 import java.time.LocalDate;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java00.*;
 
 public class HelloWorld{
   //文字列出力
@@ -104,147 +106,24 @@ public class HelloWorld{
     System.out.println("float + short (type): " + ((Object)(s1 + s2)).getClass().getSimpleName());
   }
 
+  public static int test(){
+    int a = 10;
+    System.out.println("return " + a);
+    return a;
+  }
   public static void main(String[] args){
-    Invoke.execute("HelloWorld", "showHello");
-    Invoke.execute("HelloWorld", "showDate");
-    Invoke.execute("HelloWorld", "showEncoding");
-    Invoke.execute("HelloWorld", "showInteger", 8, 3);
-    Invoke.execute("HelloWorld", "showCharacter");
-    Invoke.execute("HelloWorld", "showDecimal");
-    Invoke.execute("HelloWorld", "showVar");
-    Invoke.execute("HelloWorld", "showTypeAfterCalculation");
-  }
-}
+    Invoke.execute("java00.HelloWorld", "showHello");
+    Invoke.execute("java00.HelloWorld", "showDate");
+    Invoke.execute("java00.HelloWorld", "showEncoding");
+    Invoke.execute("java00.HelloWorld", "showInteger", 8, 3);
+    Invoke.execute("java00.HelloWorld", "showCharacter");
+    Invoke.execute("java00.HelloWorld", "showDecimal");
+    Invoke.execute("java00.HelloWorld", "showVar");
+    Invoke.execute("java00.HelloWorld", "showTypeAfterCalculation");
+    int a = (int)Invoke.execute("java00.HelloWorld", "test");
+    System.out.println(a);
 
-//メソッド実行用クラス
-public class Invoke{
-
-  public static Object execute(String classname, String methodname, Object... args){
-    Object returnValue = null;
-    try{
-      //クラスの取得
-      Class<?> cls = Class.forName(classname);
-      // インスタンスの取得
-      Object obj = cls.getDeclaredConstructor().newInstance();
-
-      //可変長引数のクラスのリストを取得
-      ArrayList<Class> argsClassList = getClassList(args);
-
-      // メソッドの取得
-      Method mtd = getMethod(cls, methodname, argsClassList);
-      
-      //文字列の出力
-      showTitle(cls, mtd, args);
-
-      long startTime = System.currentTimeMillis();  //開始時間記録
-      // メソッドの実行
-      returnValue = mtd.invoke(obj, args);
-      long endTime = System.currentTimeMillis();    //終了時間記録
-      System.out.println("------------------------------ (processing time: " 
-                          + (endTime - startTime)
-                          + " ms)\n"); 
-
-      } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
-                | IllegalAccessException | InvocationTargetException e){
-        e.printStackTrace();
-      }
-      return returnValue;
-  }
-
-  //文字列の出力
-  public static void showTitle(Class cls, Method mtd, Object... args){
-    String title = "-- Start execution: " + cls.getName() + "." + mtd.getName() + "(";
-    for(int i = 0; i < args.length; i++){
-      if(i != 0){
-        title += ", ";
-      }
-
-      if(args[i] instanceof Integer){
-        title += (int)args[i];
-      } else if (args[i] instanceof Short) {
-        title += (short)args[i];
-      } else if (args[i] instanceof Long) {
-        title += (long)args[i];
-      } else if (args[i] instanceof Byte) {
-        title += (byte)args[i];
-      } else if (args[i] instanceof Float) {
-        title += (float)args[i];
-      } else if (args[i] instanceof Double) {
-        title += (double)args[i];
-      } else if (args[i] instanceof Character) {
-        title += (char)args[i];
-      } else if (args[i] instanceof String) {
-        title += (String)args[i];
-      } else if (args[i] instanceof Boolean) {
-        title += (boolean)args[i];
-      } else {
-        System.out.println("Unknown type argument: " + args[i]);
-        System.exit(1);
-      }
-    }
-    title += ")";
-
-    final int MAXTITLELENGE = 55;
-    System.out.print(title);
-    for(int i = 0; i < MAXTITLELENGE - title.length(); i++){
-        System.out.print("-");
-    }
-    System.out.println();
-  }
-
-  public static Class<?> getClass(Object arg){
-    Class<?> cls = null;
-
-    if (arg instanceof Integer) {
-      cls = int.class;
-    } else if (arg instanceof Short) {
-      cls = short.class;
-    } else if (arg instanceof Long) {
-      cls = long.class;
-    } else if (arg instanceof Byte) {
-      cls = byte.class;
-    } else if (arg instanceof Float) {
-      cls = float.class;
-    } else if (arg instanceof Double) {
-      cls = double.class;
-    } else if (arg instanceof Character) {
-      cls = char.class;    
-    } else if (arg instanceof String) {
-      cls = String.class;
-    } else if (arg instanceof Boolean) {
-      cls = boolean.class;
-    } else {
-      System.out.println("Unknown type argument: " + arg);
-      System.exit(1);
-    } 
-    return cls;
-  }
-
-  //クラスのリストを取得
-  public static ArrayList<Class> getClassList(Object[] args){
-    ArrayList<Class> classList = new ArrayList<>();
-    
-    for (Object arg : args) {
-      classList.add(getClass(arg)); 
-    }
-
-    return classList;
-  }
-  
-  //メソッドの取得
-  @SuppressWarnings("unchecked")
-  //警告: [unchecked] raw型ClassのメンバーとしてのgetMethod(String,Class<?>...)への無検査呼出しです
-  //を抑制しているが、知識不足から安全性は未確認
-  public static Method getMethod(Class cls, String methodName, ArrayList<Class> argsClassList){
-    Method method = null;
-    Class<?>[] argTypes = argsClassList.toArray(new Class<?>[argsClassList.size()]);
-
-    try {
-        method = cls.getMethod(methodName, argTypes);
-    } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-    }
-
-    return method;
+    Invoke ivk = new Invoke(100); //ヘッダーとフッターの長さを指定
+    ivk.execute("java00.HelloWorld", "showTypeAfterCalculation");
   }
 }
