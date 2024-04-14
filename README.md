@@ -11,6 +11,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
 ```
 ## 2. ファイル
 - [HelloWorld.java](#HelloWorld)
+- [Invoke.java](#Invoke)
 
 ### <a id="HelloWorld"></a>2.1. HelloWorld.java
 - `HelloWorld`(クラス)
@@ -30,11 +31,19 @@ Java HotSpot(TM) 64-Bit Server VM (build 22+36-2370, mixed mode, sharing)
     varを使用した宣言。
   - `showOperationType`(メソッド)
     演算時の型の出力。
+
+### <a id="Invoke"></a>2.2. Invoke.java
 - `Invoke`(クラス)
   - `execute`(メソッド)  
     メソッドを実行し、実行時間を表示する。
-  - `showTitle`(メソッド)  
-    実行したメソッドの文字列を表示する。`execute`で使用する。
+  - `minframeLength`(フィールド)  
+    ヘッダー、フッターの最小文字数を表す。`showStart`, `showEnd`で使用する
+  - `maxframeLength`(フィールド)  
+    ヘッダー、フッターの最大文字数を表す。`showStart`, `showEnd`で使用する
+  - `showStart`(メソッド)  
+    ヘッダーを表示する。`execute`で使用する。
+  - `showEnd`(メソッド)  
+    フッターの表示。`execute`で使用する。
   - `getClass`(メソッド)
     Object型からプリミティブ型またはクラス型の Class オブジェクトを返す。`getClassList`で使用する。
   - `getClassList`(メソッド)  
